@@ -1,0 +1,4 @@
+.DS_*
+node_modules
+.idea/test1.iml
+.idea/libraries/test1_node_modules.xml

@@ -30,7 +30,8 @@
     "express-session": "*",
     "morgan": "*",
     "connect-ensure-login": "*",
-    "serve-favicon": "*"
+    "serve-favicon": "*",
+    "mysql": "*"
   },
   "devDependencies": {
     "mocha": "^2.2.4",

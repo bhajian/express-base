@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Comment = require('../dao/comment');
+var Comment = require('../dao/mysql-base-dao');
 
 router.get('/:id', function(req, res) {
   Comment.get(req.params.id, function (err, comment) {

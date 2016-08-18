@@ -14,3 +14,5 @@ var pool  = mysql.createPool({
 pool.getConnection(function(err, connection) {
   // connected! (unless `err` is set)
 });
+
+module.exports.pool = pool;

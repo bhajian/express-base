@@ -1,6 +1,12 @@
-/**
- * Created by behnamhajian on 2016-06-16.
- */
+/******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2016. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ ******************************************************************************/
+'use strict';
 
 /**
  * Module dependencies.
@@ -30,6 +36,7 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
 
 /**
  * Normalize a port into a number, string, or false.

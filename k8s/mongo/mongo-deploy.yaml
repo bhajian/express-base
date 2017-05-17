@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mongo-deploy-<num>
+  labels:
+    app: mongo
+    component: mongo-deploy-<num>
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+        component: mongo-deploy-<num>
+        enabled: "true"
+    spec:
+      nodeSelector:
+        is_storage: "true"
+      containers:
+      - name: mongo
+        image: localhost:5000/mongo:3.4.2
+        command:
+            - mongod
+            - "--replSet"
+            - rs0
+            - "--smallfiles"
+            - "--noprealloc"
+        ports:
+        - name: mongo
+          containerPort: 27017
+          hostPort: 27017
+        volumeMounts:
+            - name: mongo-persistent-storage-<num>
+              mountPath: /data/db
+      - name: mongo-sidecar
+        image: localhost:5000/mongo-k8s-sidecar:1.0
+        env:
+          - name: MONGO_SIDECAR_POD_LABELS
+            value: "app=mongo"
+      volumes:
+        - name: mongo-persistent-storage-<num>
+          persistentVolumeClaim:
+            claimName: mongo-pvc-<num>

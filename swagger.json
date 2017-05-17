@@ -1,0 +1,91 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "DSX Backend REST API",
+    "description": "API for Admin Dashboard",
+    "version": "1.0"
+  },
+  "produces": [
+    "application/json"
+  ],
+  "host": "localhost:3010",
+  "basePath": "/",
+  "paths": {
+    "/hello/helloWorldService": {
+      "get": {
+        "x-swagger-router-controller": "HelloController",
+        "operationId": "helloWorldService",
+        "tags": [
+          "/hello-controller"
+        ],
+        "description": "Returns list of hellos.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful request.",
+            "schema": {
+              "$ref": "#/definitions/hello"
+            }
+          },
+          "default": {
+            "description": "Invalid request.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/health/healthz": {
+      "get": {
+        "x-swagger-router-controller": "health",
+        "operationId": "healthz",
+        "tags": [
+          "/health"
+        ],
+        "description": "Returns Success for LivenessProbe.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful request.",
+            "schema": {
+              "$ref": "#/definitions/healthz"
+            }
+          },
+          "default": {
+            "description": "Invalid request.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "message"
+      ]
+    },
+    "hello": {
+      "properties": {
+        "success": {
+          "type": "string"
+        }
+      }
+    },
+    "healthz": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

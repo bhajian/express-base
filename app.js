@@ -1,68 +1,40 @@
-/**
- * Created by behnamhajian on 2016-06-16.
- */
 
 'use strict';
 
 var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
 var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var controllers = require('./controller');
-var auth = require('./middleware/auth');
-var middleware = require('./middleware/middleware');
+var mongoConnection = require('./dao/mongo-connection');
+var swaggerTools = require('swagger-tools');
 
-var app = express();
+function start() {
+  mongoConnection.connect();
+  var app = express();
+  app.use(morgan('dev'));
+  app.use(bodyParser.json({limit: '50mb'}));
+  app.use(bodyParser.urlencoded({
+    limit: '50mb',
+    extended: true,
+    parameterLimit: 50000
+  }));
+  app.use(bodyParser.json());
 
-// view engine setup
-app.set('views', path.join(__dirname, 'view'));
-app.set('view engine', 'ejs');
+  var swaggerOpt = {
+    swaggerUi: '/swagger.json',
+    controllers: './controller',
+    useStubs: process.env.NODE_ENV === 'DEV' ? true : false
+  };
 
-// uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public/image/', 'logo.png')));
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+  var swaggerDoc = require('./swagger.json');
 
-app.use(middleware.session);
-app.use(auth.passport.initialize());
-app.use(auth.passport.session());
-
-app.use(controllers);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+  swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
+    app.use(middleware.swaggerMetadata());
+    app.use(middleware.swaggerValidator());
+    app.use(middleware.swaggerUi());
+    app.use(middleware.swaggerRouter(swaggerOpt));
   });
+
+  return app;
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
-
-module.exports = app;
+module.exports = start();

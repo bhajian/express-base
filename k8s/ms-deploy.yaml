@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ms-deploy
+  labels:
+    app: dash-back
+    component: ms-rc
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: dash-back
+        component: ms-rc
+        enabled: "true"
+    spec:
+      nodeSelector:
+        is_compute: "true"
+      containers:
+      - name: ms
+        image: localhost:5000/microservice-template:1.0.0
+        env:
+        - name: MONGODB_URL
+          value: "mongodb://mongo-svc-0,mongo-svc-1,mongo-svc-2:27017/"
+        ports:
+        - name: ms-nodejs
+          containerPort: 3000
+        volumeMounts:
+        - name: secrets-volume
+          mountPath: /etc/kubecert
+        livenessProbe:
+          httpGet:
+            path: /health/healthz
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 30
+      volumes:
+      - name: secrets-volume
+        hostPath:
+          path: /etc/kubernetes/ssl

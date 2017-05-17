@@ -1,11 +1,12 @@
 {
-  "name": "application-name",
-  "version": "1.0.0",
+  "name": "microservice-template",
+  "version": "2.0.0",
   "description": "Basic structure for Express web apps.",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "node_modules/.bin/mocha tests/**"
+    "start": "node server.js",
+    "pretest": "eslint --ignore-path .gitignore .",
+    "test": "./node_modules/.bin/mocha ./test/*"
   },
   "keywords": [
     "base",
@@ -15,26 +16,32 @@
     "structure"
   ],
   "author": "Behnam Hajian.",
-  "license": "Behnam",
+  "license": "Behnam Hajian",
   "dependencies": {
+    "bluebird": "^3.4.7",
     "body-parser": "^1.12.3",
-    "cookie-parser": "1.4.3",
+    "cookie-parser": "^1.4.3",
     "debug": "2.2.0",
     "ejs": "~2.3.3",
     "express": "^4.12.3",
+    "express-session": "^1.14.2",
     "jade": "^1.9.2",
-    "passport": "*",
-    "passport-local": "*",
-    "connect-redis": "*",
-    "redis": "*",
-    "express-session": "*",
-    "morgan": "*",
-    "connect-ensure-login": "*",
-    "serve-favicon": "*",
-    "mysql": "*"
+    "lodash": "^4.17.4",
+    "log4js": "^1.1.1",
+    "mongoose": "^4.6.8",
+    "mongoose-auto-increment": "^5.0.1",
+    "morgan": "^1.8.1",
+    "multiparty": "^4.1.2",
+    "request": "^2.79.0",
+    "serve-favicon": "^2.4.1",
+    "swagger-tools": "^0.10.1"
   },
   "devDependencies": {
     "mocha": "^2.2.4",
-    "should": "^6.0.1"
+    "should": "^6.0.1",
+    "eslint": "^1.1.0",
+    "jscs": "^1.11.3",
+    "tap": "^1.3.1",
+    "chai": "^3.5.0"
   }
 }

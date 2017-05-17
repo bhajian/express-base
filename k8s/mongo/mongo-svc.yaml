@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc-<num>
+  labels:
+    app: mongo
+    component: mongo-svc-<num>
+spec:
+  type: ClusterIP
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    component: mongo-deploy-<num>
+    enabled: "true"

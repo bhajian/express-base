@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc-<num>
+spec:
+  accessModes:
+    - ReadWriteMany
+  selector:
+    matchLabels:
+      assign-to: dashboard-storage
+      name: mongo-pv-<num>
+  resources:
+    requests:
+      storage: 60Gi

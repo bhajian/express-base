@@ -16,3 +16,12 @@ module.exports.helloWorldService = function helloWorldService(req, res) {
     return res.json({success: true,result: result});
   });
 };
+
+module.exports.goodByeOperation = function goodByeOperation(req, res) {
+  helloService.getSomeInfo({appName: req.query.appName}, function(err, result){
+    if (err){
+      return res.json({success: false, error: err.message});
+    }
+    return res.json({success: true,result: result});
+  });
+};

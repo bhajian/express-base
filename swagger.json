@@ -1,16 +1,49 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "DSX Backend REST API",
-    "description": "API for Admin Dashboard",
+    "title": "Sim App REST API",
+    "description": "Simple Express App template",
     "version": "1.0"
   },
   "produces": [
     "application/json"
   ],
-  "host": "localhost:3010",
+  "host": "localhost:3000",
   "basePath": "/",
   "paths": {
+    "/hello/goodByeOperation": {
+      "post": {
+        "x-swagger-router-controller": "HelloController",
+        "operationId": "goodByeOperation",
+        "tags": [
+          "/HelloController"
+        ],
+        "description": "Good bye to the app.",
+        "parameters": [
+          {
+            "name": "appName",
+            "in": "query",
+            "description": "The name of the app to good bye.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful request.",
+            "schema": {
+              "$ref": "#/definitions/hello"
+            }
+          },
+          "default": {
+            "description": "Invalid request.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/hello/helloWorldService": {
       "get": {
         "x-swagger-router-controller": "HelloController",
